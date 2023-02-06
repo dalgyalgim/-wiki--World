@@ -23,8 +23,9 @@ async function findRelated(subject){
     while (relatedWords.length != 5){
         let relatedDescription = await wikiFetcher.handleOne(results[counter++].word);
         if (relatedDescription && relatedDescription.length > 40) { relatedWords.push({
+            word : results[counter - 1].word,
             subject: relatedDescription
-            })}
+        })}
     }
 
     return relatedWords;

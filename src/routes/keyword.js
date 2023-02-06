@@ -3,6 +3,7 @@ const {Router} = require('express');
 const router = Router();
 
 const wikiFetch = require("./helper/wikiFetcher");
+const Searches = require('../database/schemas/searches');
 
 // Single Keyword (POST) function
 router.post('/', async (request, response, next) => {
@@ -21,10 +22,16 @@ router.post('/', async (request, response, next) => {
 
     // Get Results
     if (results) {
+        const searchDB = await Searches.findOne({keyword});
+        if (!searchDB) {const newSearch = await Searches.create({keyword : keyword, message : results});}
         response.send({ msg : results })
     } else if (lowerKeyword){
+        const searchDB = await Searches.findOne({lowerKeyword});
+        if (!searchDB) {const newSearch = await Searches.create({keyword : lowerKeyword, message :lowerResults});}
         response.send({ msg : lowerResults })
     } else if (capitalKeyword) {
+        const searchDB = await Searches.findOne({capitalKeyword});
+        if (!searchDB) {const newSearch = await Searches.create({keyword : capitalKeyword, message : capitalResults});}
         response.send({msg : capitalResults})
     }
 })

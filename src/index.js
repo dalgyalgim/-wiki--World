@@ -6,7 +6,7 @@ const session = require("express-session");
 const app = express();
 const PORT = 3001;
 
-require("./history");
+require("./database");
 
 // Middlewares
 // ***********************************
