@@ -46,5 +46,12 @@ router.post('/multiple', async (request, response, next) => {
     response.send(results);
 })
 
+// Delete Keyword (DELETE) from Database
+router.delete('/:keyword', async (request, response, next) => {
+    let {keyword} = request.params;
+    await Searches.findOneAndDelete({keyword : keyword});
+    response.sendStatus(204)
+})
+
 
 module.exports = router;

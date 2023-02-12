@@ -5,11 +5,21 @@ const router = Router();
 const wikiRelated = require("./helper/wikiRelated");
 const Searches = require('../database/schemas/searches');
 
-// Get Related Descriptions of current word in databse.
-router.get('/', async (request, response, next) => {
-    let word = "duck";
-    let results = await wikiRelated.findRelated(word);
-    response.send(results);
+// (UPDATE) Function
+// Get related word & descriptions of current words in database.
+router.put('/', async (request, response, next) => {
+    let hits = [];
+    (await Searches.find()).forEach(result => hits.push(result.keyword));
+    
+    let relatedWords;
+    for (let word of hits){
+        let relatedWords = await wikiRelated.findRelated(word)
+        Searches.findOneAndUpdate({keyword : word}, {related : relatedWords}, (err) => {
+            if (err) {console.log(err);}
+            else {console.log("Saved Successfully.");}
+        });
+    }
+    response.sendStatus(204);
 })
 
 module.exports = router;

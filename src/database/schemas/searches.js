@@ -6,6 +6,9 @@ const SearchSchema = new mongoose.Schema({
     },
     message : {
         type : mongoose.SchemaTypes.String,
+    },
+    related: {
+        type : mongoose.SchemaTypes.Array,
     }
 })
 
